@@ -1,0 +1,33 @@
+.form {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #5289b5;
+  border: 3px solid #1f3541;
+  border-radius: 10px;
+  width: 35vw;
+  height: 12vh;
+}
+.textarea {
+  resize: none;
+  padding-top: 0.5rem;
+  background-color: #afd8f2;
+  outline: none;
+  border: none;
+  text-indent: 10px;
+  text-align: start;
+  width: 30vw;
+  height: 9.7vh;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.post-btn {
+  color: #afd8f2;
+  border: none;
+  border-radius: 3px;
+  padding: 6px;
+  background-color: #1f3541;
+  font-size: 1rem;
+  cursor: pointer;
+}
