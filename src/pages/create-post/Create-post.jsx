@@ -3,7 +3,7 @@ import { CreateForm } from "./Create-form";
 
 export const CreatePost = () => {
   return (
-    <div>
+    <div className="pageBody">
       <CreateForm />
     </div>
   );

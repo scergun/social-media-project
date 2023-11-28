@@ -9,7 +9,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100%;
 
   /* global 94%+ browsers support */
   background: #afd8f2;
@@ -17,7 +18,12 @@
 
 .container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   width: 80vw;
   display: flex;
   justify-content: center;
+}
+
+.posts {
+  margin-bottom: 10rem;
 }

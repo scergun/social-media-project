@@ -1,8 +1,7 @@
-import React from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +30,7 @@ export const CreateForm = () => {
       username: user.displayName,
       userId: user?.uid,
       userImg: user?.photoURL,
+      createdAt: serverTimestamp(),
     });
     navigate("/");
   };

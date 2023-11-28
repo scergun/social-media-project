@@ -2,23 +2,24 @@ import { auth, db } from "../config/firebase";
 import {
   addDoc,
   collection,
-  query,
-  where,
   getDocs,
   deleteDoc,
   doc,
+  where,
+  query,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "../styles/Post.css";
 import { Heart, HeartFill } from "react-bootstrap-icons";
-import { CreateForm } from "../pages/create-post/Create-form";
-import { CreatePost } from "../pages/create-post/Create-post";
+import { useNavigate } from "react-router-dom";
+
 export const Post = (props) => {
   const { post } = props;
   const [user] = useAuthState(auth);
 
   const [likes, setLikes] = useState(null);
+  const navigate = useNavigate();
 
   const likesRef = collection(db, "likes");
   const getLikes = async () => {
@@ -75,7 +76,7 @@ export const Post = (props) => {
   }, []);
 
   return (
-    <>
+    <div>
       <div className="post1">
         <div className="user-info-container1">
           <div className="user-info1">
@@ -84,8 +85,20 @@ export const Post = (props) => {
               width={90}
               height={90}
               style={{ borderRadius: "90px" }}
+              onClick={() => {
+                navigate("/user");
+                setClickedProfile(post.userId);
+              }}
             />
-            <p className="username1"> {post.username} </p>
+            <p
+              className="username1"
+              onClick={() => {
+                navigate("/user");
+                setClickedProfile(post.userId);
+              }}
+            >
+              {post.username}
+            </p>
           </div>
         </div>
         <div className="title1">
@@ -101,6 +114,6 @@ export const Post = (props) => {
           {likes && <p>{likes?.length}</p>}
         </div>
       </div>
-    </>
+    </div>
   );
 };
