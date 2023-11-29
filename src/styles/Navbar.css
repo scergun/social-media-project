@@ -5,10 +5,10 @@
   justify-content: space-around;
   align-items: center;
   height: 6vh;
-  /* border-bottom: 2px solid #1f3541; */
+  border-bottom: 2px solid #1f3541;
 
   /* global 94%+ browsers support */
-  background-color: transparent;
+  background-color: #5289b5;
 
   width: 100%;
 }
@@ -24,7 +24,7 @@
   align-items: center;
   text-decoration: none;
   font-size: 1.2rem;
-  color: #a5f5eb;
+  color: #1f3541;
 }
 
 .user {
@@ -32,13 +32,13 @@
   flex-direction: column;
   align-items: center;
   font-size: 1.2rem;
-  color: #a5f5eb;
+  color: #1f3541;
   justify-content: center;
   text-align: center;
   cursor: pointer;
 }
 .user img {
-  border: 2px solid #a5f5eb;
+  border: 2px solid #1f3541;
 }
 .logout {
   display: flex;
@@ -47,12 +47,11 @@
 }
 
 .logout button {
-  color: #1f3541;
-  border: 2px solid #80d0c7;
+  color: #afd8f2;
+  border: none;
   border-radius: 3px;
   padding: 6px;
-  background-color: #0093e9;
-  background-image: linear-gradient(160deg, #80d0c7 0%, #0093e9 100%);
+  background-color: #1f3541;
   font-size: 1rem;
   cursor: pointer;
 }
