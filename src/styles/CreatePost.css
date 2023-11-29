@@ -35,3 +35,14 @@
   font-size: 1rem;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto;
+  }
+  .textarea {
+    width: 55vw;
+  }
+}

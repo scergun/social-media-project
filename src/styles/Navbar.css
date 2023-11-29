@@ -56,3 +56,40 @@
   font-size: 1rem;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .navbar-container {
+    margin-top: 20px;
+  }
+  .navbar-links {
+    display: flex;
+    width: 50vw;
+    justify-content: space-around;
+    gap: 30px;
+  }
+
+  .navbar-links p {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 14px;
+    color: #a5f5eb;
+  }
+
+  .user {
+    justify-content: flex-start;
+  }
+  .logout {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .logout button {
+    width: 60px;
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
+    padding: 0;
+  }
+}

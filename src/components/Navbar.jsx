@@ -28,10 +28,6 @@ export const Navbar = () => {
           <HouseFill size={"1.3rem"} />
           <p>Home</p>
         </Link>
-        <Link to="/">
-          <SearchHeartFill size={"1.3rem"} />
-          <p>Discover</p>
-        </Link>
 
         {!user ? (
           <Link to="/login">
@@ -44,12 +40,7 @@ export const Navbar = () => {
             <p>Create Post</p>
           </Link>
         )}
-        {user && (
-          <Link to={"/"}>
-            <BellFill size={"1.3rem"} />
-            <p>Notifications</p>
-          </Link>
-        )}
+
         {user && (
           <div className="user">
             <>

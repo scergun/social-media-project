@@ -15,7 +15,7 @@ export const Home = () => {
 
   useEffect(() => {
     getPosts();
-  });
+  }, [postsRef]);
   return (
     <div>
       <CreateForm />

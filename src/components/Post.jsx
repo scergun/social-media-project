@@ -1,15 +1,15 @@
-import { auth, db } from "../config/firebase";
+import { useEffect, useState } from "react";
 import {
-  addDoc,
+  onSnapshot,
+  query,
   collection,
-  getDocs,
+  where,
+  addDoc,
   deleteDoc,
   doc,
-  where,
-  query,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../config/firebase"; // Yolunuzun doğru olduğundan emin olun
 import "../styles/Post.css";
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
@@ -17,63 +17,53 @@ import { useNavigate } from "react-router-dom";
 export const Post = (props) => {
   const { post } = props;
   const [user] = useAuthState(auth);
-
-  const [likes, setLikes] = useState(null);
+  const [likes, setLikes] = useState([]);
   const navigate = useNavigate();
 
-  const likesRef = collection(db, "likes");
-  const getLikes = async () => {
-    const data = await getDocs(likesDoc);
-    setLikes(
-      data.docs.map((doc) => ({ userId: doc.data().userId, likeId: doc.id }))
-    );
-  };
-  const likesDoc = query(likesRef, where("postId", "==", post.id));
+  // Realtime likes data
+  useEffect(() => {
+    const likesRef = collection(db, "likes");
+    const q = query(likesRef, where("postId", "==", post.id));
 
-  const addlike = async () => {
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const likesData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setLikes(likesData);
+    });
+
+    return () => unsubscribe(); // Cleanup function
+  }, [post.id]);
+
+  const addLike = async () => {
     try {
-      const newDoc = await addDoc(likesRef, {
+      await addDoc(collection(db, "likes"), {
         userId: user?.uid,
         postId: post.id,
       });
-      if (user) {
-        setLikes((prev) =>
-          prev
-            ? [...prev, { userId: user?.uid, likeId: newDoc.id }]
-            : [{ userId: user?.uid, likeId: newDoc.id }]
-        );
-      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const removelike = async () => {
+  const removeLike = async () => {
     try {
       const likeToDeleteQuery = query(
-        likesRef,
+        collection(db, "likes"),
         where("postId", "==", post.id),
         where("userId", "==", user.uid)
       );
       const likeToDeleteData = await getDocs(likeToDeleteQuery);
       const likeId = likeToDeleteData.docs[0].id;
-      const likeToDelete = doc(db, "likes", likeId);
-      await deleteDoc(likeToDelete);
-      if (user) {
-        setLikes(
-          (prev) => prev && prev.filter((like) => like.LikeId === likeId)
-        );
-      }
+
+      await deleteDoc(doc(db, "likes", likeId));
     } catch (err) {
       console.log(err);
     }
   };
 
-  const hasUserLiked = likes?.find((like) => like.userId === user?.uid);
-
-  useEffect(() => {
-    getLikes();
-  }, []);
+  const hasUserLiked = likes?.some((like) => like.userId === user?.uid);
 
   return (
     <div>
@@ -87,31 +77,72 @@ export const Post = (props) => {
               style={{ borderRadius: "90px" }}
               onClick={() => {
                 navigate("/user");
-                setClickedProfile(post.userId);
               }}
             />
             <p
               className="username1"
               onClick={() => {
                 navigate("/user");
-                setClickedProfile(post.userId);
               }}
             >
               {post.username}
             </p>
           </div>
         </div>
-        <div className="title1">
-          <h1>{post.title}</h1>
-        </div>
-        <div className="body1">
-          <p>{post.description} </p>
+
+        <div className="body-container">
+          <div className="body1">
+            <p>{post.description}</p>
+          </div>
         </div>
         <div className="footer1">
-          <button onClick={hasUserLiked ? removelike : addlike}>
+          <button onClick={hasUserLiked ? removeLike : addLike}>
             {hasUserLiked ? <HeartFill size={18} /> : <Heart size={18} />}
           </button>
-          {likes && <p>{likes?.length}</p>}
+          {likes && <p>{likes.length}</p>}
+        </div>
+      </div>
+
+      <div className="post1">
+        {/* Post içeriği */}
+        <div className="user-info-container1">
+          {/* Kullanıcı bilgisi ve resmi */}
+          <div className="user-info1">
+            <img
+              src={"https://picsum.photos/200"}
+              width={90}
+              height={90}
+              style={{ borderRadius: "90px" }}
+              onClick={() => {
+                navigate("/user");
+                // setClickedProfile(post.userId); // Eğer bu fonksiyon tanımlıysa
+              }}
+            />
+            <p
+              className="username1"
+              onClick={() => {
+                navigate("/user");
+                // setClickedProfile(post.userId); // Eğer bu fonksiyon tanımlıysa
+              }}
+            >
+              Samet Çağlar Ergün
+            </p>
+          </div>
+        </div>
+
+        <div className="body1">
+          {/* Post açıklaması */}
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis
+            perferendis alias commodi officia rerum, voluptates aliquam vero
+            iusto tempora nobis voluptate debitis molestias aut neque error
+            deserunt dolore doloribus aperiam?
+          </p>
+        </div>
+        <div className="footer1">
+          {/* Like butonu ve sayısı */}
+          <button>{<HeartFill size={18} />}</button>
+          <p>1</p>
         </div>
       </div>
     </div>

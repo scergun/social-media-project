@@ -28,3 +28,12 @@
 .posts {
   margin-bottom: 10rem;
 }
+
+@media only screen and (max-width: 600px) {
+  body {
+    width: 100vw;
+  }
+  .container {
+    width: 100%;
+  }
+}
